@@ -1,0 +1,9 @@
+---
+- name: Update Lustre repository cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Restart LNet service
+  ansible.builtin.service:
+    name: lnet.service
+    state: restarted

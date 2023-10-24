@@ -1,0 +1,7 @@
+---
+- name: Install Lustre packages for Debian OS family
+  ansible.builtin.package:
+    name:
+      - "lustre-client-modules-{{ ansible_facts['kernel'] }}"
+      - lustre-client-utils
+    state: "{{ 'latest' if lustre_upgrade else 'present' }}"

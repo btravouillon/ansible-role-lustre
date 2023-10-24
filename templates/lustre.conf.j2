@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+options lnet networks="{{ lustre_lnet_networks }}"
+options lnet lnet_transaction_timeout=100 lnet_retry_count=2
+options ko2iblnd peer_credits=32 peer_credits_hiw=16 concurrent_sends=64
+options libcfs cpu_pattern="" cpu_npartitions=4

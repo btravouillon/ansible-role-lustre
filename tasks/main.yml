@@ -1,0 +1,42 @@
+---
+- name: Configure repositories
+  ansible.builtin.include_tasks:
+    file: "repositories-{{ ansible_facts['os_family'] }}.yml"
+  when: lustre_configure_repos
+
+- name: Install Lustre client
+  ansible.builtin.include_tasks:
+    file: "install-{{ ansible_facts['os_family'] }}.yml"
+
+- name: Install /etc/modprobe.d/lustre.conf
+  ansible.builtin.template:
+    src: lustre.conf.j2
+    dest: /etc/modprobe.d/lustre.conf
+    owner: root
+    group: root
+    mode: "0644"
+  when: lustre_lnet_networks is defined
+  notify: "Restart LNet service"
+
+- name: Install /etc/lnet.conf
+  ansible.builtin.template:
+    src: lnet.conf.j2
+    dest: /etc/lnet.conf
+    owner: root
+    group: root
+    mode: "0644"
+  when: lustre_lnet_conf is defined
+  notify: "Restart LNet service"
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
+- name: Mount Lustre file systems
+  ansible.posix.mount:
+    src: "{{ item.src }}"
+    path: "{{ item.path }}"
+    opts: "{{ item.opts + ',' if item.opts is defined }}_netdev,x-systemd.automount,x-systemd.requires=lnet.service"
+    fstype: lustre
+    boot: "{{ item.boot | default(false) }}"
+    state: "{{ item.state | default('mounted') }}"
+  loop: "{{ lustre_filesystems }}"

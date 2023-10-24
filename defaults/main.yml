@@ -1,0 +1,28 @@
+---
+lustre_configure_repos: false
+lustre_upgrade: false
+
+lustre_lnet_networks: "o2ib0(ib0)"
+
+lustre_filesystems: []
+
+# LNet configuration (lnet.conf)
+lustre_lnet_conf: |
+  net:
+      - net type: o2ib1
+        local NI(s):
+          - interfaces:
+                0: ib0
+            tunables:
+                peer_timeout: 180
+                peer_credits: 128
+                peer_buffer_credits: 0
+                credits: 1024
+            lnd tunables:
+                peercredits_hiw: 64
+                map_on_demand: 32
+                concurrent_sends: 256
+                fmr_pool_size: 2048
+                fmr_flush_trigger: 512
+                fmr_cache: 1
+            CPT: "[0,1]"

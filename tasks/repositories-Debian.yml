@@ -1,0 +1,27 @@
+---
+- name: Install GPG-KEY
+  ansible.builtin.apt_key:
+    url: "{{ lustre_gpg_key }}"
+    keyring: /etc/apt/trusted.gpg.d/lustre.gpg
+  when: lustre_gpg_key is defined
+
+- name: Configure Lustre repository
+  ansible.builtin.copy:
+    content: "{{ lustre_apt_repository }}\n"
+    dest: /etc/apt/sources.list.d/lustre.list
+    mode: "0644"
+  when: lustre_apt_repository is defined
+  notify: "Update Lustre repository cache"
+
+- name: Configure APT preferences for Lustre repository
+  ansible.builtin.copy:
+    content: |
+      Package: *
+      Pin: release o=Lustre
+      Pin-Priority: {{ lustre_apt_priority }}
+    dest: /etc/apt/preferences.d/priority-lustre
+    mode: "0644"
+  when: lustre_apt_priority is defined
+
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
