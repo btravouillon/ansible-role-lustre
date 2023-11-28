@@ -7,3 +7,4 @@
   ansible.builtin.service:
     name: lnet.service
     state: restarted
+  when: lustre_lnet_restart
