@@ -1,6 +1,8 @@
 ---
 lustre_configure_repos: false
 lustre_upgrade: false
+# Install the DKMS package
+lustre_dkms: false
 
 lustre_lnet_networks: "o2ib0(ib0)"
 # Do not restart lnet service by default
