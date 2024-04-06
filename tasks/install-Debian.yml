@@ -2,6 +2,7 @@
 - name: Install Lustre packages for Debian OS family
   ansible.builtin.package:
     name:
+      - "{{ lustre_dkms | bool | ternary('libjson-c-dev', omit) }}"
       - "lustre-client-modules-{{ lustre_dkms | bool | ternary('dkms', ansible_facts['kernel']) }}"
       - lustre-client-utils
     state: "{{ 'latest' if lustre_upgrade else 'present' }}"
