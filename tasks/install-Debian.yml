@@ -1,4 +1,9 @@
 ---
+- name: Update APT repository
+  when: lustre_upgrade
+  ansible.builtin.apt:
+    update_cache: true
+
 - name: Install Lustre packages for Debian OS family
   ansible.builtin.package:
     name:
