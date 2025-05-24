@@ -1,16 +1,30 @@
 ---
+# Repository Configuration
+# ----------------------
+# Whether to configure package repositories
+# Set to true if you need to add Lustre repositories
 lustre_configure_repos: false
+
+# Installation Configuration
+# ------------------------
+# Whether to upgrade existing Lustre installation
+# Set to true to upgrade to latest version
 lustre_upgrade: false
-# Install the DKMS package
+
+# Whether to use DKMS packages instead of pre-built modules
+# Set to true if you need to build modules for custom kernels
 lustre_dkms: false
 
+# LNet Configuration
+# -----------------
+# LNet network configuration
+# Format: network_type(interface)
 lustre_lnet_networks: "o2ib0(ib0)"
-# Do not restart lnet service by default
+
+# Whether to restart LNet service after configuration
 lustre_lnet_restart: false
 
-lustre_filesystems: []
-
-# LNet configuration (lnet.conf)
+# Custom LNet configuration
 lustre_lnet_conf: |
   net:
       - net type: o2ib1
@@ -30,3 +44,8 @@ lustre_lnet_conf: |
                 fmr_flush_trigger: 512
                 fmr_cache: 1
             CPT: "[0,1]"
+
+# Filesystem Configuration
+# ----------------------
+# List of Lustre filesystems to mount
+lustre_filesystems: []
