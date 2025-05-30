@@ -11,9 +11,18 @@ lustre_configure_repos: false
 # Set to true to upgrade to latest version
 lustre_upgrade: false
 
+# DKMS Configuration
+# ------------------
 # Whether to use DKMS packages instead of pre-built modules
 # Set to true if you need to build modules for custom kernels
 lustre_dkms: false
+
+# List of patches to apply to DKMS source
+# Each patch should be a dictionary with:
+#   - src: Path to the patch file (relative to playbook)
+#   - version: Lustre version this patch applies to (e.g. "2.15.6")
+#   - order: Order in which the patch should be applied (0-based index)
+lustre_dkms_patches: []
 
 # LNet Configuration
 # -----------------
