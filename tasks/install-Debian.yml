@@ -1,13 +1,19 @@
 ---
 - name: Update APT repository
-  when: lustre_upgrade
+  when: lustre_upgrade | bool
   ansible.builtin.apt:
     update_cache: true
+
+- name: Install dependencies for DKMS
+  when: lustre_dkms | bool
+  ansible.builtin.package:
+    name:
+      - libjson-c-dev
+    state: "{{ 'latest' if lustre_upgrade else 'present' }}"
 
 - name: Install Lustre packages for Debian OS family
   ansible.builtin.package:
     name:
-      - "{{ lustre_dkms | bool | ternary('libjson-c-dev', omit) }}"
       - "lustre-client-modules-{{ lustre_dkms | bool | ternary('dkms', ansible_facts['kernel']) }}"
       - lustre-client-utils
     state: "{{ 'latest' if lustre_upgrade else 'present' }}"
