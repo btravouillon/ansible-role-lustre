@@ -55,6 +55,12 @@ environments.
 - `lustre_lnet_networks`: LNet network configuration (default: "o2ib0(ib0)")
 - `lustre_lnet_restart`: Restart LNet service after configuration (default: false)
 
+#### Lustre Configuration
+The role uses a basic template to configure `lustre.conf` by default.
+
+To override this template:
+- `lustre_conf`: Custom lustre.conf configuration (see defaults/main.yml for example)
+
 ## Example Playbooks
 
 ### Basic Installation
