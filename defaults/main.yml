@@ -54,6 +54,13 @@ lustre_lnet_conf: |
                 fmr_cache: 1
             CPT: "[0,1]"
 
+# Lustre Configuration
+# --------------------
+# lustre_conf: |-
+#   options lnet network="{{ lustre_lnet_networks }}"
+#   options ko2iblnd credits=7424
+#   [...]
+
 # Filesystem Configuration
 # ----------------------
 # List of Lustre filesystems to mount
