@@ -32,6 +32,40 @@
   when: lustre_lnet_conf is defined
   notify: "Restart LNet service"
 
+- name: Configure lnet.service override
+  when: lustre_lnet_systemd_override is defined
+  block:
+    - name: Create systemd drop-in directory
+      ansible.builtin.file:
+        path: /etc/systemd/system/lnet.service.d
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Copy override.conf
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/lnet.service.d/override.conf
+        content: "{{ lustre_lnet_systemd_override }}"
+        owner: root
+        group: root
+        mode: "0755"
+      notify:
+        - "Run daemon-reload for LNet service"
+        - "Restart LNet service"
+
+- name: Cleanup lnet.service override
+  when: not lustre_lnet_systemd_override is defined
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  notify:
+    - "Run daemon-reload for LNet service"
+    - "Restart LNet service"
+  loop:
+    - /etc/systemd/system/lnet.service.d/override.conf
+    - /etc/systemd/system/lnet.service.d
+
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
 
