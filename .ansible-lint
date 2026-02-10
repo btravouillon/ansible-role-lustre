@@ -1,0 +1,6 @@
+exclude_paths:
+  - .github/
+  - examples/
+
+warn_list:
+  - no-changed-when

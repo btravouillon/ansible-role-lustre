@@ -1,0 +1,25 @@
+name: ansible-lint
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - '**.rst'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - '**.rst'
+
+jobs:
+  check:
+    name: Ansible Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # needed for progressive mode to work
+
+      - name: Run ansible-lint
+        uses: ansible/ansible-lint@v26.1.1
