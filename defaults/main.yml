@@ -54,6 +54,12 @@ lustre_lnet_conf: |
                 fmr_cache: 1
             CPT: "[0,1]"
 
+# Override for systemd lnet.service
+# lustre_lnet_systemd_override: |
+#   [Service]
+#   ExecStart=
+#   ExecStart=/sbin/modprobe lustre
+
 # Lustre Configuration
 # --------------------
 # lustre_conf: |-
